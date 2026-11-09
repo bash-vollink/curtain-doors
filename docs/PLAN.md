@@ -82,7 +82,7 @@ That is up to 32 states per block. Only `SEGMENT=0` gets the block entity (`newB
 
 | Type | Topology | Constraints | Feel |
 |---|---|---|---|
-| Wool | one sheet, 9 × (8·L+1) | structural + shear + bend (skip-one) | soft, heavy damping |
+| Wool | alone: 2 panels of 5 × (8·L+1); in a row: 1 panel of 9 × (8·L+1) per block | structural + shear + bend (skip-one) | soft, heavy damping |
 | Plastic | 4 strips of 3 × (8·L+1), slight overlap, no links between strips | structural + strong bend | stiff, springy, slides apart |
 | Beaded | 8 strands × (6·L) beads | structural only, plus a weak bend | each strand swings freely, quick settle |
 

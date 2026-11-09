@@ -43,10 +43,14 @@ def bead():
 
 def curtain_cloth():
     img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
-    # A single sheet hanging from the rod, with vertical folds.
+    # Two panels hanging from the rod, slightly parted at the bottom.
     for y in range(3, 16):
+        gap = 0 if y < 11 else (y - 10)
         for x in range(2, 14):
-            v = [235, 205, 180][x % 3]
+            if 8 - gap // 2 - (gap % 2) <= x < 8 + gap // 2 and gap:
+                continue
+            fold = (x % 3)
+            v = [235, 205, 180][fold]
             if y == 15:
                 v -= 25
             img.putpixel((x, y), (v, v, v, 255))

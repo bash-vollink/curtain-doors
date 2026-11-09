@@ -2,7 +2,7 @@ package com.bashvollink.curtaindoors.block;
 
 /** The three curtain families. Each has its own cloth topology, look and sound. */
 public enum CurtainType {
-    /** A single soft fabric sheet. 16 dye colors. */
+    /** Soft fabric: two parting panels on its own, one panel per block when placed in a row. 16 dye colors. */
     WOOL(true),
     /** Overlapping translucent PVC strips, like a walk-in freezer door. */
     PLASTIC(false),

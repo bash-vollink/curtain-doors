@@ -45,6 +45,7 @@ public final class SimManager {
         CurtainBlockEntity blockEntity;
         BlockState builtFor;
         ClientConfig.Quality builtQuality;
+        boolean builtSplit;
         ClothSim sim;
         /** Scratch buffer the renderer fills with interpolated positions. */
         public float[] renderPositions;
@@ -71,11 +72,13 @@ public final class SimManager {
         Entry e = ENTRIES.computeIfAbsent(be.getBlockPos().immutable(), p -> new Entry());
         BlockState state = be.getBlockState();
         ClientConfig.Quality quality = ClientConfig.quality();
-        if (e.blockEntity != be || e.builtFor != state || e.builtQuality != quality || e.sim == null) {
+        boolean split = isLoneWoolCurtain(be, state);
+        if (e.blockEntity != be || e.builtFor != state || e.builtQuality != quality || e.builtSplit != split || e.sim == null) {
             e.blockEntity = be;
             e.builtFor = state;
             e.builtQuality = quality;
-            e.sim = build(state, quality);
+            e.builtSplit = split;
+            e.sim = build(state, quality, split);
             e.renderPositions = new float[e.sim.count * 3];
             e.asleep = false;
             e.atRest = true;
@@ -86,12 +89,34 @@ public final class SimManager {
         return e;
     }
 
-    static ClothSim build(BlockState state, ClientConfig.Quality quality) {
+    /**
+     * A wool curtain on its own is two panels that part in the middle. Wool curtains side by side
+     * along the same axis are one panel each, so a row reads as a wide curtain of panels.
+     */
+    static boolean isLoneWoolCurtain(CurtainBlockEntity be, BlockState state) {
+        if (!(state.getBlock() instanceof CurtainBlock cb) || cb.getCurtainType() != CurtainType.WOOL || be.getLevel() == null) {
+            return false;
+        }
+        Direction.Axis axis = state.getValue(CurtainBlock.AXIS);
+        BlockPos pos = be.getBlockPos();
+        return !isWoolNeighbor(be, pos.relative(axis, 1), axis) && !isWoolNeighbor(be, pos.relative(axis, -1), axis);
+    }
+
+    private static boolean isWoolNeighbor(CurtainBlockEntity be, BlockPos pos, Direction.Axis axis) {
+        BlockState other = be.getLevel().getBlockState(pos);
+        return other.getBlock() instanceof CurtainBlock cb && cb.getCurtainType() == CurtainType.WOOL
+                && other.getValue(CurtainBlock.AXIS) == axis;
+    }
+
+    static ClothSim build(BlockState state, ClientConfig.Quality quality, boolean split) {
         CurtainType type = state.getBlock() instanceof CurtainBlock cb ? cb.getCurtainType() : CurtainType.WOOL;
         int length = state.getValue(CurtainBlock.LENGTH);
         int q = quality.ordinal(); // 0 low, 1 medium, 2 high
         return switch (type) {
-            case WOOL -> new ClothSim(ClothLayout.panels(1, new int[]{5, 9, 13}[q], new int[]{4, 8, 12}[q], length,
+            case WOOL -> new ClothSim(split
+                    ? ClothLayout.panels(2, new int[]{3, 5, 7}[q], new int[]{4, 8, 12}[q], length,
+                            0F, 0F, SimParams.WOOL.shearStiffness(), SimParams.WOOL.bendStiffness())
+                    : ClothLayout.panels(1, new int[]{5, 9, 13}[q], new int[]{4, 8, 12}[q], length,
                     0F, 0F, SimParams.WOOL.shearStiffness(), SimParams.WOOL.bendStiffness()), SimParams.WOOL);
             case PLASTIC -> new ClothSim(ClothLayout.panels(4, new int[]{2, 3, 3}[q], new int[]{4, 8, 12}[q], length,
                     0.06F, 0.012F, SimParams.PLASTIC.shearStiffness(), SimParams.PLASTIC.bendStiffness()), SimParams.PLASTIC);
