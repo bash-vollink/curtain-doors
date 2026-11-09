@@ -91,7 +91,7 @@ public final class SimManager {
         int length = state.getValue(CurtainBlock.LENGTH);
         int q = quality.ordinal(); // 0 low, 1 medium, 2 high
         return switch (type) {
-            case WOOL -> new ClothSim(ClothLayout.panels(2, new int[]{3, 5, 7}[q], new int[]{4, 8, 12}[q], length,
+            case WOOL -> new ClothSim(ClothLayout.panels(1, new int[]{5, 9, 13}[q], new int[]{4, 8, 12}[q], length,
                     0F, 0F, SimParams.WOOL.shearStiffness(), SimParams.WOOL.bendStiffness()), SimParams.WOOL);
             case PLASTIC -> new ClothSim(ClothLayout.panels(4, new int[]{2, 3, 3}[q], new int[]{4, 8, 12}[q], length,
                     0.06F, 0.012F, SimParams.PLASTIC.shearStiffness(), SimParams.PLASTIC.bendStiffness()), SimParams.PLASTIC);

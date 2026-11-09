@@ -2,7 +2,7 @@
 
 A NeoForge mod for **Minecraft 1.21.1** (NeoForge 21.1.249) that adds curtains you use as doors. Hang one from a ceiling and walk straight through it. You never need to right-click, and the cloth is physically simulated: it parts around whatever passes through and swings back.
 
-- **Wool curtains**, 16 colors: two fabric panels that part in the middle.
+- **Wool curtains**, 16 colors: a single fabric sheet.
 - **Plastic strip curtain**: translucent overlapping strips, like a walk-in freezer door.
 - **Beaded curtains**, 16 colors: independent bead strands that swing and clack.
 

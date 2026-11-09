@@ -11,7 +11,7 @@ class ClothSimTest {
     private static final float DT = 1F / 40F;
 
     private static ClothSim wool(int length) {
-        return new ClothSim(ClothLayout.panels(2, 5, 8, length, 0F, 0F, 0.6F, 0.15F), SimParams.WOOL);
+        return new ClothSim(ClothLayout.panels(1, 9, 8, length, 0F, 0F, 0.6F, 0.15F), SimParams.WOOL);
     }
 
     private static void run(ClothSim sim, int ticks, List<Cylinder> colliders) {
@@ -39,7 +39,7 @@ class ClothSimTest {
     @Test
     void settlesAfterPerturbation() {
         for (ClothLayout layout : List.of(
-                ClothLayout.panels(2, 5, 8, 3, 0F, 0F, 0.6F, 0.15F),
+                ClothLayout.panels(1, 9, 8, 3, 0F, 0F, 0.6F, 0.15F),
                 ClothLayout.panels(4, 3, 8, 3, 0.06F, 0.012F, 0.9F, 0.6F),
                 ClothLayout.strands(8, 6, 3, 0.05F))) {
             ClothSim sim = new ClothSim(layout, SimParams.WOOL);
@@ -113,7 +113,7 @@ class ClothSimTest {
 
     @Test
     void restPoseSpansOpening() {
-        ClothLayout l = ClothLayout.panels(2, 5, 8, 3, 0F, 0F, 0.6F, 0.15F);
+        ClothLayout l = ClothLayout.panels(1, 9, 8, 3, 0F, 0F, 0.6F, 0.15F);
         float minX = Float.MAX_VALUE, maxX = -Float.MAX_VALUE, minY = Float.MAX_VALUE, maxY = -Float.MAX_VALUE;
         for (int i = 0; i < l.particleCount; i++) {
             minX = Math.min(minX, l.rest[i * 3]);

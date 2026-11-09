@@ -26,31 +26,27 @@ def plastic_strip():
 
 
 def bead():
-    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
-    cx = cy = 7.5
+    """Fully opaque square so every cube face reads as a solid bead from any angle."""
+    img = Image.new("RGBA", (16, 16))
     for y in range(16):
         for x in range(16):
-            d = math.hypot(x - cx, y - cy)
-            if d <= 7.6:
-                # Lit from the top-left, white so it can be tinted.
-                lx, ly = x - 5.0, y - 5.0
-                hl = max(0.0, 1.0 - math.hypot(lx, ly) / 4.0)
-                shade = 0.72 + 0.28 * (1.0 - d / 7.6)
-                v = min(255, int(255 * shade + 60 * hl))
-                img.putpixel((x, y), (v, v, v, 255))
+            edge = x in (0, 15) or y in (0, 15)
+            # Lit from the top-left, white so it can be tinted.
+            v = 255 - int(4.5 * (x + y))
+            if edge:
+                v -= 45
+            if 3 <= x <= 5 and 3 <= y <= 5:
+                v = 255
+            img.putpixel((x, y), (v, v, v, 255))
     return img
 
 
 def curtain_cloth():
     img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
-    # Two panels hanging from the rod, slightly parted at the bottom.
+    # A single sheet hanging from the rod, with vertical folds.
     for y in range(3, 16):
-        gap = 0 if y < 11 else (y - 10)
         for x in range(2, 14):
-            if 8 - gap // 2 - (gap % 2) <= x < 8 + gap // 2 and gap:
-                continue
-            fold = (x % 3)
-            v = [235, 205, 180][fold]
+            v = [235, 205, 180][x % 3]
             if y == 15:
                 v -= 25
             img.putpixel((x, y), (v, v, v, 255))
