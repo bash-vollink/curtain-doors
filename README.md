@@ -45,6 +45,19 @@ Requires JDK 21.
 
 Every push triggers CI, which uploads the mod jar as an artifact named `curtaindoors-<sha>` on the workflow run page.
 
+## Releasing
+Push a tag shaped like `MC<minecraft version>-<mod version>`:
+
+```bash
+git tag MC1.21.1-1.0.0
+git push origin MC1.21.1-1.0.0
+```
+
+CI builds the tag and runs all of the tests. If they pass, it publishes a GitHub release with `curtaindoors-MC1.21.1-1.0.0.jar` attached and release notes generated from the commits.
+- A suffix such as `-beta.1` or `-rc.2` (for example `MC1.21.1-1.1.0-beta.1`) marks the release as a pre-release.
+- The mod version comes from the tag, so `gradle.properties` doesn't need editing.
+- The Minecraft part must match `minecraft_version` in `gradle.properties`; otherwise CI stops without publishing.
+
 ## How it works
 - **Server:** curtains are blocks with no collision. Only the top segment carries a block entity. No networking is needed.
 - **Client physics:** the cloth is simulated only on the client (`client/sim`):

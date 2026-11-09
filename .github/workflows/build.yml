@@ -3,6 +3,8 @@ name: Build
 on:
   push:
     branches: ['**']
+    # Release tags look like MC1.21.1-1.0.0 or MC1.21.1-1.1.0-beta.1
+    tags: ['MC*-*']
   pull_request:
   workflow_dispatch:
 
@@ -13,8 +15,39 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    outputs:
+      release: ${{ steps.version.outputs.release }}
+      prerelease: ${{ steps.version.outputs.prerelease }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: Resolve version
+        id: version
+        env:
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          if [ "$REF_TYPE" != "tag" ]; then
+            echo "release=false" >> "$GITHUB_OUTPUT"
+            echo "gradle_args=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          re='^MC([0-9]+(\.[0-9]+)+)-([0-9]+\.[0-9]+\.[0-9]+)(-[0-9A-Za-z]+(\.[0-9A-Za-z]+)*)?$'
+          if ! [[ "$REF_NAME" =~ $re ]]; then
+            echo "::error::Tag '$REF_NAME' must look like MC1.21.1-1.0.0 or MC1.21.1-1.1.0-beta.1"
+            exit 1
+          fi
+          mc="${BASH_REMATCH[1]}"
+          mod="${BASH_REMATCH[3]}${BASH_REMATCH[4]}"
+          expected_mc="$(sed -n 's/^minecraft_version=//p' gradle.properties)"
+          if [ "$mc" != "$expected_mc" ]; then
+            echo "::error::Tag is for Minecraft $mc but gradle.properties builds for $expected_mc"
+            exit 1
+          fi
+          echo "release=true" >> "$GITHUB_OUTPUT"
+          echo "prerelease=$([ -n "${BASH_REMATCH[4]}" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "gradle_args=-Pmod_version=$mod" >> "$GITHUB_OUTPUT"
+          echo "Releasing mod version $mod for Minecraft $mc"
 
       - uses: actions/setup-java@v4
         with:
@@ -24,10 +57,10 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Build and unit test
-        run: ./gradlew build --console=plain
+        run: ./gradlew build --console=plain ${{ steps.version.outputs.gradle_args }}
 
       - name: GameTests (headless server)
-        run: ./gradlew runGameTestServer --console=plain
+        run: ./gradlew runGameTestServer --console=plain ${{ steps.version.outputs.gradle_args }}
 
       - name: Check generated resources are up to date
         run: |
@@ -43,7 +76,7 @@ jobs:
       - name: Upload mod jar
         uses: actions/upload-artifact@v4
         with:
-          name: curtaindoors-${{ github.sha }}
+          name: curtaindoors-${{ github.ref_type == 'tag' && github.ref_name || github.sha }}
           path: build/libs/*.jar
           if-no-files-found: error
 
@@ -53,3 +86,24 @@ jobs:
         with:
           name: test-reports-${{ github.sha }}
           path: build/reports/
+
+  release:
+    needs: build
+    if: needs.build.outputs.release == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: curtaindoors-${{ github.ref_name }}
+          path: dist
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Curtain Doors ${{ github.ref_name }}
+          files: dist/*.jar
+          prerelease: ${{ needs.build.outputs.prerelease == 'true' }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true

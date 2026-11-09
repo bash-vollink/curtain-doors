@@ -4,7 +4,8 @@ plugins {
     id 'net.neoforged.moddev' version '2.0.148'
 }
 
-version = mod_version
+// Jar is named like curtaindoors-MC1.21.1-1.0.0.jar; mods.toml keeps the plain mod_version.
+version = "MC${minecraft_version}-${mod_version}"
 group = mod_group_id
 
 base {
