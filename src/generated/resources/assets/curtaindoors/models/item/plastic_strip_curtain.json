@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "curtaindoors:item/plastic_strip_curtain"
+  }
+}

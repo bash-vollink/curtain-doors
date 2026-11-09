@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "curtaindoors:red_curtain",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "segment": "0"
+              }
+            }
+          ],
+          "name": "curtaindoors:red_curtain"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "curtaindoors:blocks/red_curtain"
+}

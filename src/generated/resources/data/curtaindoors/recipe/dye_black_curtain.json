@@ -1,0 +1,61 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "curtaindoors:dye_wool_curtain",
+  "ingredients": [
+    {
+      "item": "minecraft:black_dye"
+    },
+    [
+      {
+        "item": "curtaindoors:white_curtain"
+      },
+      {
+        "item": "curtaindoors:orange_curtain"
+      },
+      {
+        "item": "curtaindoors:magenta_curtain"
+      },
+      {
+        "item": "curtaindoors:light_blue_curtain"
+      },
+      {
+        "item": "curtaindoors:yellow_curtain"
+      },
+      {
+        "item": "curtaindoors:lime_curtain"
+      },
+      {
+        "item": "curtaindoors:pink_curtain"
+      },
+      {
+        "item": "curtaindoors:gray_curtain"
+      },
+      {
+        "item": "curtaindoors:light_gray_curtain"
+      },
+      {
+        "item": "curtaindoors:cyan_curtain"
+      },
+      {
+        "item": "curtaindoors:purple_curtain"
+      },
+      {
+        "item": "curtaindoors:blue_curtain"
+      },
+      {
+        "item": "curtaindoors:brown_curtain"
+      },
+      {
+        "item": "curtaindoors:green_curtain"
+      },
+      {
+        "item": "curtaindoors:red_curtain"
+      }
+    ]
+  ],
+  "result": {
+    "count": 1,
+    "id": "curtaindoors:black_curtain"
+  }
+}

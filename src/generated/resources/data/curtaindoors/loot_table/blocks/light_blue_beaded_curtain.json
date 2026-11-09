@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "curtaindoors:light_blue_beaded_curtain",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "segment": "0"
+              }
+            }
+          ],
+          "name": "curtaindoors:light_blue_beaded_curtain"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "curtaindoors:blocks/light_blue_beaded_curtain"
+}

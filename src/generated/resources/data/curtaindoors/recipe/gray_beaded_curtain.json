@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "curtaindoors:beaded_curtain",
+  "key": {
+    "#": {
+      "item": "minecraft:string"
+    },
+    "D": {
+      "item": "minecraft:gray_dye"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "SSS",
+    "D#D",
+    "###"
+  ],
+  "result": {
+    "count": 3,
+    "id": "curtaindoors:gray_beaded_curtain"
+  }
+}

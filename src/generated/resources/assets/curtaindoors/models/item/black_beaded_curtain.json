@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "curtaindoors:item/beaded_curtain_beads",
+    "layer1": "curtaindoors:item/beaded_curtain_strings"
+  }
+}

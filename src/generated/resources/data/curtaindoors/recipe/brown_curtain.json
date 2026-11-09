@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "curtaindoors:wool_curtain",
+  "key": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "W": {
+      "item": "minecraft:brown_wool"
+    }
+  },
+  "pattern": [
+    "SSS",
+    "WWW",
+    "WWW"
+  ],
+  "result": {
+    "count": 3,
+    "id": "curtaindoors:brown_curtain"
+  }
+}

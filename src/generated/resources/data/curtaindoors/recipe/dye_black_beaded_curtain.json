@@ -1,0 +1,61 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "curtaindoors:dye_beaded_curtain",
+  "ingredients": [
+    {
+      "item": "minecraft:black_dye"
+    },
+    [
+      {
+        "item": "curtaindoors:white_beaded_curtain"
+      },
+      {
+        "item": "curtaindoors:orange_beaded_curtain"
+      },
+      {
+        "item": "curtaindoors:magenta_beaded_curtain"
+      },
+      {
+        "item": "curtaindoors:light_blue_beaded_curtain"
+      },
+      {
+        "item": "curtaindoors:yellow_beaded_curtain"
+      },
+      {
+        "item": "curtaindoors:lime_beaded_curtain"
+      },
+      {
+        "item": "curtaindoors:pink_beaded_curtain"
+      },
+      {
+        "item": "curtaindoors:gray_beaded_curtain"
+      },
+      {
+        "item": "curtaindoors:light_gray_beaded_curtain"
+      },
+      {
+        "item": "curtaindoors:cyan_beaded_curtain"
+      },
+      {
+        "item": "curtaindoors:purple_beaded_curtain"
+      },
+      {
+        "item": "curtaindoors:blue_beaded_curtain"
+      },
+      {
+        "item": "curtaindoors:brown_beaded_curtain"
+      },
+      {
+        "item": "curtaindoors:green_beaded_curtain"
+      },
+      {
+        "item": "curtaindoors:red_beaded_curtain"
+      }
+    ]
+  ],
+  "result": {
+    "count": 1,
+    "id": "curtaindoors:black_beaded_curtain"
+  }
+}

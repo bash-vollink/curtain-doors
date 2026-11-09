@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "curtaindoors:item/curtain_cloth",
+    "layer1": "curtaindoors:item/curtain_rod"
+  }
+}

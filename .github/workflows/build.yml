@@ -1,0 +1,55 @@
+name: Build
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build and unit test
+        run: ./gradlew build --console=plain
+
+      - name: GameTests (headless server)
+        run: ./gradlew runGameTestServer --console=plain
+
+      - name: Check generated resources are up to date
+        run: |
+          ./gradlew runData --console=plain
+          changes="$(git status --porcelain -- src/generated)"
+          if [ -n "$changes" ]; then
+            echo "::error::src/generated is stale; run ./gradlew runData and commit the result"
+            echo "$changes"
+            git diff -- src/generated
+            exit 1
+          fi
+
+      - name: Upload mod jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: curtaindoors-${{ github.sha }}
+          path: build/libs/*.jar
+          if-no-files-found: error
+
+      - name: Upload test reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports-${{ github.sha }}
+          path: build/reports/
